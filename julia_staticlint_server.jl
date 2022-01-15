@@ -253,8 +253,8 @@ function lint_file(rootfile::String,
     hints = Dict()
     slopts = SL.LintOptions(:)
     for (path, file) in server.files
-        SL.check_all(file.cst, slopts, getenv(f, server))
-        hints[path],_ = lint_collect_hints(file.cst, getenv(f, server))
+        SL.check_all(file.cst, slopts, SL.getenv(f, server))
+        hints[path],_ = lint_collect_hints(file.cst, SL.getenv(f, server))
     end
 
     # Send errors back to client
