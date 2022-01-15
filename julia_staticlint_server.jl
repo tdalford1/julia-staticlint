@@ -305,8 +305,9 @@ env = dirname(SS.Pkg.Types.Context().env.project_file)
 # Setup server
 server = SL.FileServer()
 ssi = SymbolServerInstance(depot, cache)
-_, server.symbolserver = SS.getstore(ssi, env)
-server.symbol_extends  = SS.collect_extended_methods(server.symbolserver)
+_, store = SS.getstore(ssi, env)
+extends  = SS.collect_extended_methods(store);
+server.extenal_env = SL.ExternalEnv(store, extends, Symbol[])
 
 @info print_time()*"Started server"
 
