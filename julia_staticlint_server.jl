@@ -307,7 +307,7 @@ server = SL.FileServer()
 ssi = SymbolServerInstance(depot, cache)
 _, store = SS.getstore(ssi, env)
 extends  = SS.collect_extended_methods(store);
-server.extenal_env = SL.ExternalEnv(store, extends, Symbol[])
+server.external_env = SL.ExternalEnv(store, extends, Symbol[])
 
 @info print_time()*"Started server"
 
