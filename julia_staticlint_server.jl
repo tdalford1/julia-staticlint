@@ -54,6 +54,8 @@ const LintCodeToErrorLevel = Dict{SL.LintCodes,String}(
     SL.UnassignedKeywordArgument => error,
     SL.CannotDefineFuncAlreadyHasValue => error)
 
+const SHOW_MISSING_REFS=false
+
 # ..:: Functions ::..
 
 """ Make a string holding the current time. """
@@ -280,12 +282,17 @@ function lint_file(rootfile::String,
                 write(conn, error_msg)
             else
                 # Use of undeclared variable
-                description = string("Missing reference for ", CSTP.valof(x))
-                level = error
-                convert_pos_byte_to_char!(files_src[p], offset)
-                error_msg = format_error(p, offset, description, level)
-                print_error(error_msg)
-                write(conn, error_msg)
+                # These missing refs are wrong lots of the time... don't use
+                # if specified.
+                if SHOW_MISSING_REFS
+                    description = string("Missing reference for ",
+                                         CSTP.valof(x))
+                    level = error
+                    convert_pos_byte_to_char!(files_src[p], offset)
+                    error_msg = format_error(p, offset, description, level)
+                    print_error(error_msg)
+                    write(conn, error_msg)
+                end
             end
         end
     end
