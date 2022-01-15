@@ -247,11 +247,13 @@ function lint_file(rootfile::String,
 
     @info print_time()*"Running lint checks..."
 
+    # get the env for later
+
     # Run lint checks.
     hints = Dict()
     slopts = SL.LintOptions(:)
     for (path, file) in server.files
-        SL.check_all(file.cst, slopts, server)
+        SL.check_all(file.cst, slopts, SL.getenv(f, server))
         hints[path],_ = lint_collect_hints(file.cst, server)
     end
 
